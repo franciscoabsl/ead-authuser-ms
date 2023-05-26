@@ -1,5 +1,6 @@
 package com.ead.authuser.dtos;
 
+import com.ead.authuser.validations.UsernameConstraint;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
@@ -22,23 +23,24 @@ public class UserDto {
 
     private UUID userId;
 
-    @NotBlank(groups = UserView.RegistratioPost.class)
-    @Size(min = 4, max = 50)
+    @NotBlank(groups = UserView.RegistratioPost.class, message = "Username can not be empty.")
+    @Size(min = 4, max = 50, groups = UserView.RegistratioPost.class, message = "Username must be between 4 and 50 characters")
+    @UsernameConstraint(groups = UserView.RegistratioPost.class)
     @JsonView(UserView.RegistratioPost.class)
     private String username;
 
-    @NotBlank(groups = UserView.RegistratioPost.class)
-    @Email
+    @NotBlank(groups = UserView.RegistratioPost.class, message = "Email can not be empty.")
+    @Email(groups = UserView.RegistratioPost.class, message = "Email is not valid.")
     @JsonView(UserView.RegistratioPost.class)
     private String email;
 
-    @NotBlank(groups = {UserView.RegistratioPost.class, UserView.PasswordPut.class})
-    @Size(min = 6, max = 20)
+    @NotBlank(groups = {UserView.RegistratioPost.class, UserView.PasswordPut.class}, message = "Password can not be empty.")
+    @Size(min = 6, max = 20, groups = {UserView.RegistratioPost.class, UserView.PasswordPut.class}, message = "Password must be between 6 and 20 characters")
     @JsonView({UserView.RegistratioPost.class, UserView.PasswordPut.class})
     private String password;
 
-    @NotBlank(groups = UserView.PasswordPut.class)
-    @Size(min = 6, max = 20)
+    @NotBlank(groups = UserView.PasswordPut.class, message = "Old password can not be empty.")
+    @Size(min = 6, max = 20, groups = UserView.PasswordPut.class, message = "Old password must be between 4 and 50 characters")
     @JsonView(UserView.PasswordPut.class)
     private String oldPassword;
 
@@ -51,7 +53,7 @@ public class UserDto {
     @JsonView({UserView.RegistratioPost.class, UserView.UserPut.class})
     private String cpf;
 
-    @NotBlank(groups = UserView.ImagePut.class)
+    @NotBlank(groups = UserView.ImagePut.class, message = "Image URL can not be empty.")
     @JsonView(UserView.ImagePut.class)
     private String imageUrl;
 
