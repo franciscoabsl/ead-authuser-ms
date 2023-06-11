@@ -82,7 +82,7 @@ public class UserController {
                                              @Validated(UserDto.UserView.UserPut.class)
                                              @JsonView(UserDto.UserView.UserPut.class) UserDto userDto) {
 
-        log.debug("PUT updateUser userDto received :: {} ", userDto.toString());
+        log.debug("PUT updateUser userDto received :: ID {} ", userDto.getUserId());
         Optional<UserModel> userModelOptional = userService.findById(userId);
 
         if (!userModelOptional.isPresent()) {
@@ -96,7 +96,7 @@ public class UserController {
             userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
 
             userService.save(userModel);
-            log.debug("PUT updateUser userDto userModel :: {} ", userModel.toString());
+            log.debug("PUT updateUser userDto userModel :: ID {} ", userModel.getUserId());
             return ResponseEntity.status(HttpStatus.OK).body(userModel);
         }
     }

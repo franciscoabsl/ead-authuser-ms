@@ -7,7 +7,6 @@ import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.extern.log4j.*;
-import org.apache.logging.log4j.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +30,7 @@ public class AuthenticationController {
     public ResponseEntity<Object> registerUser(@RequestBody
                                                    @Validated(UserDto.UserView.RegistratioPost.class)
                                                    @JsonView(UserDto.UserView.RegistratioPost.class) UserDto userDto) {
-        log.debug("POST registerUser userDto received :: {} ", userDto.toString());
+        log.debug("POST registerUser userDto received :: ID {} ", userDto.toString());
 
         if (userService.existsByUsername(userDto.getUsername())) {
             log.warn("Registration Error: Username is already taken :: {}", userDto.getUsername());
@@ -50,7 +49,7 @@ public class AuthenticationController {
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         userService.save(userModel);
 
-        log.debug("POST registerUser userModel saved :: {} ", userModel.toString());
+        log.debug("POST registerUser userModel saved :: ID {} ", userModel.getUserId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userModel);
     }

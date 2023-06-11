@@ -2,16 +2,14 @@ package com.ead.authuser.models;
 
 import com.ead.authuser.enums.UserStatus;
 import com.ead.authuser.enums.UserType;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -50,4 +48,8 @@ public class UserModel extends RepresentationModel<UserModel> implements Seriali
     @Column(nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime lastUpdateDate;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<UserCourseModel> usersCourses;
 }
