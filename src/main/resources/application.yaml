@@ -15,3 +15,16 @@ spring:
     properties:
       hibernate:
         show_sql: true
+        format_sql: true
+  output:
+    ansi:
+      enabled: Always
+
+logging:
+  level:
+    com.ead: TRACE
+    root: INFO
+    org:
+      hibernate: INFO
+      springframework:
+        web: DEBUG
