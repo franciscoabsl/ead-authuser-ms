@@ -1,9 +1,12 @@
 package com.ead.authuser.clients;
 
 import com.ead.authuser.dtos.*;
+import com.ead.authuser.services.*;
 import lombok.extern.log4j.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.core.*;
 import org.springframework.data.domain.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.client.*;
 
@@ -16,23 +19,23 @@ public class UserClient {
     @Autowired
     RestTemplate restTemplate;
 
-    String REQUEST_URI = "http://localhost:8082";
+    @Autowired
+    UtilsService utilsService;
+
 
     public Page<CourseDto> getAllCoursesByUser(UUID userId, Pageable pageable) {
         List<CourseDto> searchResult = null;
+        ResponseEntity<ResponsePageDto<CourseDto>> result = null;
 
-        String url = REQUEST_URI +
-                "/courses?userId=" + userId +
-                "&page=" + pageable.getPageNumber() +
-                "&size=" + pageable.getPageSize() +
-                "&sort=" + pageable.getSort().toString().replaceAll(": ", ",");
+        String url = utilsService.createUrl(userId, pageable);
 
         log.debug("REQUEST URL: {} ", url);
         log.info("REQUEST URL: {} ", url);
 
         try {
-
-
+            ParameterizedTypeReference<ResponsePageDto<CourseDto>> responseType = new ParameterizedTypeReference<ResponsePageDto<CourseDto>>() {};
+            result = restTemplate.exchange(url, HttpMethod.GET, null, responseType);
+            searchResult = result.getBody().getContent();
             log.debug("Response Number of Elements: {} ", searchResult.size());
 
         } catch (HttpStatusCodeException e) {
@@ -42,6 +45,6 @@ public class UserClient {
 
         log.debug("Ending request /courses userID {} ", userId);
 
-        return null;
+        return result.getBody();
     }
 }
