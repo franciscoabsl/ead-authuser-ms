@@ -14,7 +14,7 @@ import java.util.*;
 
 @Log4j2
 @Component
-public class UserClient {
+public class CourseClient {
 
     @Autowired
     RestTemplate restTemplate;
@@ -22,12 +22,14 @@ public class UserClient {
     @Autowired
     UtilsService utilsService;
 
+    @Value("${ead.api.url.course}")
+    String REQUEST_URL_COURSE;
 
     public Page<CourseDto> getAllCoursesByUser(UUID userId, Pageable pageable) {
         List<CourseDto> searchResult = null;
         ResponseEntity<ResponsePageDto<CourseDto>> result = null;
 
-        String url = utilsService.createUrl(userId, pageable);
+        String url = REQUEST_URL_COURSE + utilsService.createUrlGetAllCoursesByUserId(userId, pageable);
 
         log.debug("REQUEST URL: {} ", url);
         log.info("REQUEST URL: {} ", url);

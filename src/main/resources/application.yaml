@@ -28,3 +28,9 @@ logging:
       hibernate: INFO
       springframework:
         web: DEBUG
+
+ead:
+  api:
+    url:
+      course: 'http://localhost:8082'
+
