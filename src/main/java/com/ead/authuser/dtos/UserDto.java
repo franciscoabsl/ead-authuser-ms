@@ -15,7 +15,7 @@ import java.util.UUID;
 public class UserDto {
 
     public interface UserView {
-        public static interface RegistratioPost {}
+        public static interface RegistrationPost {}
         public static interface UserPut {}
         public static interface PasswordPut {}
         public static interface ImagePut {}
@@ -23,20 +23,20 @@ public class UserDto {
 
     private UUID userId;
 
-    @NotBlank(groups = UserView.RegistratioPost.class, message = "Username can not be empty.")
-    @Size(min = 4, max = 50, groups = UserView.RegistratioPost.class, message = "Username must be between 4 and 50 characters")
-    @UsernameConstraint(groups = UserView.RegistratioPost.class)
-    @JsonView(UserView.RegistratioPost.class)
+    @NotBlank(groups = UserView.RegistrationPost.class, message = "Username can not be empty.")
+    @Size(min = 4, max = 50, groups = UserView.RegistrationPost.class, message = "Username must be between 4 and 50 characters")
+    @UsernameConstraint(groups = UserView.RegistrationPost.class)
+    @JsonView(UserView.RegistrationPost.class)
     private String username;
 
-    @NotBlank(groups = UserView.RegistratioPost.class, message = "Email can not be empty.")
-    @Email(groups = UserView.RegistratioPost.class, message = "Email is not valid.")
-    @JsonView(UserView.RegistratioPost.class)
+    @NotBlank(groups = UserView.RegistrationPost.class, message = "Email can not be empty.")
+    @Email(groups = UserView.RegistrationPost.class, message = "Email is not valid.")
+    @JsonView(UserView.RegistrationPost.class)
     private String email;
 
-    @NotBlank(groups = {UserView.RegistratioPost.class, UserView.PasswordPut.class}, message = "Password can not be empty.")
-    @Size(min = 6, max = 20, groups = {UserView.RegistratioPost.class, UserView.PasswordPut.class}, message = "Password must be between 6 and 20 characters")
-    @JsonView({UserView.RegistratioPost.class, UserView.PasswordPut.class})
+    @NotBlank(groups = {UserView.RegistrationPost.class, UserView.PasswordPut.class}, message = "Password can not be empty.")
+    @Size(min = 6, max = 20, groups = {UserView.RegistrationPost.class, UserView.PasswordPut.class}, message = "Password must be between 6 and 20 characters")
+    @JsonView({UserView.RegistrationPost.class, UserView.PasswordPut.class})
     private String password;
 
     @NotBlank(groups = UserView.PasswordPut.class, message = "Old password can not be empty.")
@@ -44,13 +44,13 @@ public class UserDto {
     @JsonView(UserView.PasswordPut.class)
     private String oldPassword;
 
-    @JsonView({UserView.RegistratioPost.class, UserView.UserPut.class})
+    @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class})
     private String fullName;
 
-    @JsonView({UserView.RegistratioPost.class, UserView.UserPut.class})
+    @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class})
     private String phoneNumber;
 
-    @JsonView({UserView.RegistratioPost.class, UserView.UserPut.class})
+    @JsonView({UserView.RegistrationPost.class, UserView.UserPut.class})
     private String cpf;
 
     @NotBlank(groups = UserView.ImagePut.class, message = "Image URL can not be empty.")

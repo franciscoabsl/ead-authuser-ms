@@ -28,8 +28,8 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<Object> registerUser(@RequestBody
-                                                   @Validated(UserDto.UserView.RegistratioPost.class)
-                                                   @JsonView(UserDto.UserView.RegistratioPost.class) UserDto userDto) {
+                                                   @Validated(UserDto.UserView.RegistrationPost.class)
+                                                   @JsonView(UserDto.UserView.RegistrationPost.class) UserDto userDto) {
         log.debug("POST registerUser userDto received :: ID {} ", userDto.toString());
 
         if (userService.existsByUsername(userDto.getUsername())) {
